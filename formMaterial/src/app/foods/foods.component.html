@@ -1,0 +1,81 @@
+<h2 [ngStyle]="{'text-align': styleExp}">Angular Form works</h2>
+<li [ngStyle]="{'background-color':'green'}">Hello</li>
+
+<ul>
+    <li *ngFor="let component of foodList" [ngClass]="{'veg':component.type=='VEG','nonVeg':component.type=='NONVEG'}">{{component.dishName}} - ({{component.type}}) - Price Rs. {{component.price}} </li>
+</ul>
+<form [formGroup]="userForm" (ngSubmit)="submitForm()"> 
+    <div>
+        <label for="">User Name:</label>
+        <input type="text" placeholder="Enter your Name" formControlName="name">
+    </div>
+    <div>
+        <label for="">Email:</label>
+        <input type="text" placeholder="Enter your Email" formControlName="email">
+    </div>
+    <div>
+        <label for="">Gender</label>
+        <br>
+        <label for="">Male:</label>
+        <input type="radio" formControlName="gender" value="male">
+        <label for="">Female:</label>
+        <input type="radio" formControlName="gender" value="female">
+    </div>
+    <div formArrayName="favfood">
+        <label for="">Fav food:</label>
+        <div formGroupName="0">
+            <label for="">Indian:</label>
+            <input type="checkbox" formControlName="indian">
+        </div>
+        <div formGroupName="1">
+            <label for="">Chinese:</label>
+            <input type="checkbox" formControlName="chinese">
+        </div>
+    </div>
+    <button (click)="addAddress()" type="button">Add Address</button>
+    <hr>
+<div style="background-color: green;" formArrayName="addresses" *ngFor="let address of userForm.get('addresses')['controls']; let i = index; ">
+   <button (click)="closeBlock(i)" type="button">Close</button>
+    <div [formGroupName]="i">
+        <div>
+            <label for="">Address Line1:</label>
+            <input type="text" formControlName='line1'>
+        </div>
+        <div>
+            <label for="">Address Line2:</label>
+            <input type="text" formControlName='line2'>
+        </div>
+        <div>
+            <label for="">Country</label>
+            <select name="country" id="" formControlName='country'>
+                <option value="India">India</option>
+                <option value="China">China</option>
+            </select>
+        </div>
+        <div>
+            <label for="">state</label>
+            <select name="state" id="" formControlName='state'>
+                <option value="India">India</option>
+                <option value="China">China</option>
+            </select>
+        </div>
+        <div>
+            <label for="">city</label>
+            <select name="city" id="" formControlName='city'>
+                <option value="India">India</option>
+                <option value="China">China</option>
+            </select>
+        </div>
+        <hr>
+    </div>
+</div>
+<div>
+    <input type="submit" value="Submit" [disabled]="!userForm.valid"/>
+</div>
+</form>
+<div>
+    <pre>
+        <code>{{ userForm.value | json}}</code>
+        <code>Check Form is Valid: {{ userForm.valid | json}}</code>
+    </pre>
+</div>
